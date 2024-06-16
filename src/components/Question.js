@@ -85,14 +85,21 @@ const Question = ({
   };
 
   return (
-    <div className="container relative max-w-4xl mx-auto py-36 font-lexendDeca">
-      <motion.div
-        className="relative"
-        initial={{ opacity: 0, y: direction === "next" ? 500 : -500 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: direction === "next" ? -500 : 500 }}
-        transition={{ duration: 0.2 }}
-      >
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{
+        opacity: 1,
+        transition: {
+          duration: 2,
+          type: "tween",
+          ease: "backOut",
+        },
+        y: 0,
+      }}
+      viewport={{ once: true }}
+      className="container relative max-w-4xl mx-auto py-36 font-lexendDeca"
+    >
+      <div>
         <div className="flex items-center">
           <span className="text-sm text-[#cc99ff]">{step}</span>
           <span className="ml-2 mr-4 text-[#cc99ff] text-sm">
@@ -227,7 +234,7 @@ const Question = ({
             press <strong>Enter ↵</strong>
           </div>
         </div>
-      </motion.div>
+      </div>
       <div className="fixed flex items-center gap-2 bottom-8 right-8">
         <div className="flex items-center gap-[1px] bg-purple-500 rounded">
           <IoIosArrowUp
@@ -243,7 +250,7 @@ const Question = ({
           Powered by <strong>Typeform</strong>
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
