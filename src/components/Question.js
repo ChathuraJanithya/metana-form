@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaChevronDown, FaTimes } from "react-icons/fa";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp, IoIosArrowDown, IoMdCheckmark } from "react-icons/io";
 import { motion } from "framer-motion";
 import axios from "axios";
 
@@ -76,7 +76,8 @@ const Question = ({
     setIsCountryDropdownOpen(false);
   };
 
-  const handleCheckboxChange = (option) => {
+  const handleCheckboxChange = (index) => {
+    const option = String.fromCharCode(65 + index);
     setSelectedOptions((prevSelectedOptions) =>
       prevSelectedOptions.includes(option)
         ? prevSelectedOptions.filter((o) => o !== option)
@@ -85,21 +86,20 @@ const Question = ({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{
-        opacity: 1,
-        transition: {
-          duration: 2,
-          type: "tween",
-          ease: "backOut",
-        },
-        y: 0,
-      }}
-      viewport={{ once: true }}
-      className="container relative max-w-4xl mx-auto py-36 font-lexendDeca"
-    >
-      <div>
+    <div className="container relative max-w-4xl mx-auto py-36 font-lexendDeca">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+            type: "tween",
+            ease: "backOut",
+          },
+          y: 0,
+        }}
+        viewport={{ once: true }}
+      >
         <div className="flex items-center">
           <span className="text-sm text-[#cc99ff]">{step}</span>
           <span className="ml-2 mr-4 text-[#cc99ff] text-sm">
@@ -203,14 +203,42 @@ const Question = ({
             ) : field.type === "checkbox" ? (
               <div className="flex flex-wrap">
                 {field.options.map((option, idx) => (
-                  <label key={idx} className="flex items-center mt-2 mr-4">
-                    <input
-                      type="checkbox"
-                      checked={selectedOptions.includes(option)}
-                      onChange={() => handleCheckboxChange(option)}
-                      className="mr-2"
-                    />
-                    {option}
+                  <label
+                    key={idx}
+                    className={`flex justify-between items-center mt-2 mr-4 w-[250px] py-2 px-2 rounded border-2 cursor-pointer hover:bg-purple-200 focus:border-purple-400 ${
+                      selectedOptions.includes(String.fromCharCode(65 + idx))
+                        ? "bg-purple-50 text-[#cc99ff] border-purple-400"
+                        : "bg-purple-50 border-purple-300 text-[#cc99ff]"
+                    }`}
+                    onClick={() => handleCheckboxChange(idx)}
+                  >
+                    <div className="flex">
+                      <span
+                        className={`font-semibold py-[1px] px-[8px] rounded text-md mr-2 border ${
+                          selectedOptions.includes(
+                            String.fromCharCode(65 + idx)
+                          )
+                            ? "bg-purple-400 text-white border-purple-400"
+                            : "bg-white text-[#cc99ff] border-purple-300"
+                        }`}
+                      >
+                        {String.fromCharCode(65 + idx)}
+                      </span>
+                      <div
+                        className={`${
+                          selectedOptions.includes(
+                            String.fromCharCode(65 + idx)
+                          )
+                            ? "text-[#cc99ff]"
+                            : "text-[#cc99ff]"
+                        }`}
+                      >
+                        {option}
+                      </div>
+                    </div>
+                    {selectedOptions.includes(
+                      String.fromCharCode(65 + idx)
+                    ) && <IoMdCheckmark className="text-2xl text-purple-400" />}
                   </label>
                 ))}
               </div>
@@ -234,7 +262,7 @@ const Question = ({
             press <strong>Enter ↵</strong>
           </div>
         </div>
-      </div>
+      </motion.div>
       <div className="fixed flex items-center gap-2 bottom-8 right-8">
         <div className="flex items-center gap-[1px] bg-purple-500 rounded">
           <IoIosArrowUp
@@ -250,7 +278,7 @@ const Question = ({
           Powered by <strong>Typeform</strong>
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
