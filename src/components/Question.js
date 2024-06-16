@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 
 const defaultFlag =
-  "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"; // Set a default flag URL
+  "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg";
 
 const Question = ({
   question,
